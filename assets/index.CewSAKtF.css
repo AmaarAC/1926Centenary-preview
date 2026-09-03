@@ -1356,3 +1356,100 @@ body:has(.pagehead) {
     max-width: 100%;
   }
 }
+
+/* --- embedded Cognito registration form --------------------------------- */
+/* seamless.js renders real DOM into .register-form, so the form is styled to
+   match the site rather than arriving in Cognito's Arial/red defaults.
+   Cognito ships its form CSS with !important throughout (its "protect-css"
+   mode), so these overrides have to match that weight to take effect. */
+.register-form {
+  margin-top: 0.9rem;
+}
+.register-form .cog-cognito,
+.register-form .cog-body,
+.register-form .cog-input input,
+.register-form .cog-input select,
+.register-form .cog-input textarea,
+.register-form .cog-choice__value {
+  font-family: var(--brand-font-body) !important;
+  color: var(--brand-ink) !important;
+}
+.register-form .cog-cognito,
+.register-form .cog-body {
+  font-size: var(--t-sm) !important;
+}
+.register-form .cog-heading {
+  font-family: var(--brand-font-display) !important;
+  font-weight: 400 !important;
+  font-size: var(--t-md) !important;
+  letter-spacing: 0.01em !important;
+  color: var(--brand-dome) !important;
+}
+.register-form .cog-label {
+  font-family: var(--brand-font-body) !important;
+  font-size: var(--t-xs) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--brand-stone) !important;
+}
+.register-form .cog-helptext {
+  font-family: var(--brand-font-body) !important;
+  font-style: italic !important;
+  color: var(--brand-stone) !important;
+}
+.register-form .cog-asterisk {
+  color: var(--brand-finial-deep) !important;
+}
+.register-form .cog-input input,
+.register-form .cog-input select,
+.register-form .cog-input textarea,
+.register-form .cog-choice__value {
+  font-size: var(--t-sm) !important;
+  border-radius: 0 !important;
+  border-color: var(--brand-line) !important;
+}
+.register-form .cog-input input:focus,
+.register-form .cog-input select:focus,
+.register-form .cog-input textarea:focus {
+  border-color: var(--brand-finial-deep) !important;
+  outline: 2px solid var(--brand-finial) !important;
+  outline-offset: 1px !important;
+}
+/* Buttons take the site's .btn treatment. */
+.register-form .cog-button {
+  font-family: var(--brand-font-body) !important;
+  font-size: var(--t-xs) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+.register-form .cog-button--primary,
+.register-form .cog-button--submit {
+  background: transparent !important;
+  border: 1px solid var(--brand-finial-deep) !important;
+  color: var(--brand-finial-deep) !important;
+  padding: 1rem 1.75rem !important;
+}
+.register-form .cog-button--primary:hover,
+.register-form .cog-button--submit:hover {
+  background: var(--brand-finial-deep) !important;
+  color: var(--brand-render) !important;
+}
+.register-form .cog-button--secondary {
+  background: transparent !important;
+  border: 1px solid var(--brand-line) !important;
+  color: var(--brand-dome) !important;
+}
+.register-form .cog-button--secondary:hover {
+  border-color: var(--brand-finial-deep) !important;
+  color: var(--brand-finial-deep) !important;
+}
+.register-form .cog-cognito a {
+  color: var(--brand-finial-deep) !important;
+  text-decoration-color: var(--brand-line) !important;
+}
+.register-form .cog-cognito a:hover {
+  text-decoration-color: var(--brand-finial-deep) !important;
+}
