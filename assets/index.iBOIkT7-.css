@@ -526,6 +526,7 @@ body:has(.pagehead) {
   margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
   font-family: var(--brand-font-display);
   font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.6rem);
+  font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--brand-finial);
 }
@@ -1330,20 +1331,31 @@ body:has(.pagehead) {
   .bar-cta-rest {
     display: none;
   }
+  /* Reclaim some of the bar's side padding so the wider "Register" label
+     still clears the logo and the screen edge. */
+  .bar {
+    padding-inline: 0.875rem;
+  }
   .bar-cta {
     padding: 0.5rem 0.75rem !important;
   }
   .bar-nav {
-    gap: 0.75rem;
+    gap: 0.6rem;
   }
 }
-@media (max-width: 22rem) {
+/* Small phones (<=384px, which includes the very common 360px Android width):
+   three nav items plus the logo need the bar's own padding back and slightly
+   tighter type to clear the wider "Register" label. */
+@media (max-width: 24rem) {
+  .bar {
+    padding-inline: 0.75rem;
+  }
   .bar-nav {
-    gap: 0.5rem;
+    gap: 0.45rem;
   }
   .bar-nav a {
-    font-size: 0.58rem;
-    letter-spacing: 0.05em;
+    font-size: 0.6rem;
+    letter-spacing: 0.03em;
   }
   .bar-cta {
     padding: 0.45rem 0.6rem !important;
