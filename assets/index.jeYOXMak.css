@@ -949,6 +949,14 @@ body:has(.pagehead) {
   border-bottom-color: var(--gold);
   gap: 1rem;
 }
+/* Paired calls to action - they wrap onto separate lines on narrow screens. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-s);
+  align-items: center;
+}
+
 .btn {
   display: inline-block;
   font-family: var(--brand-font-body);
