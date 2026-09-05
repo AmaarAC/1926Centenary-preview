@@ -35,7 +35,7 @@ const OUT = path.join(ROOT, 'dist-hosting');
 const ZIP = path.join(ROOT, '1926Centenary-hosting.zip');
 
 /* Review-only furniture, dropped from the delivered folder. */
-const DROP = new Set(['robots.txt', 'README.md', '.nojekyll', '.DS_Store', 'scripts', '.git', '.gitignore', '.claude', 'dist-hosting', 'gallery', path.basename(ZIP), path.basename(ZIP, '.zip')]);
+const DROP = new Set(['robots.txt', 'README.md', '.nojekyll', '.DS_Store', 'scripts', '.git', '.gitignore', '.claude', 'dist-hosting', 'dist-lowercase-redirect', 'gallery', path.basename(ZIP), path.basename(ZIP, '.zip')]);
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
