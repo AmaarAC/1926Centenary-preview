@@ -35,7 +35,7 @@ const OUT = path.join(ROOT, 'dist-hosting');
 const ZIP = path.join(ROOT, '1926Centenary-hosting.zip');
 
 /* Review-only furniture, dropped from the delivered folder. */
-const DROP = new Set(['robots.txt', 'README.md', '.nojekyll', '.DS_Store', 'scripts', '.git', '.gitignore', '.claude', 'dist-hosting', 'gallery', path.basename(ZIP)]);
+const DROP = new Set(['robots.txt', 'README.md', '.nojekyll', '.DS_Store', 'scripts', '.git', '.gitignore', '.claude', 'dist-hosting', 'gallery', path.basename(ZIP), path.basename(ZIP, '.zip')]);
 
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
@@ -45,7 +45,9 @@ for (const entry of fs.readdirSync(ROOT)) {
   fs.cpSync(path.join(ROOT, entry), path.join(OUT, entry), { recursive: true });
 }
 
-const pages = fs.readdirSync(OUT).filter((f) => f.endsWith('.html'));
+/* Recursive: the story and visit pages live in their own folders so that the
+   published URLs carry no .html extension. */
+const pages = fs.readdirSync(OUT, { recursive: true }).filter((f) => f.endsWith('.html'));
 if (!pages.length) {
   console.error('x no pages found — is this being run from the repository root?');
   process.exit(1);
@@ -70,9 +72,12 @@ for (const page of pages) {
 const missing = [];
 for (const page of pages) {
   const html = fs.readFileSync(path.join(OUT, page), 'utf8');
-  for (const m of html.matchAll(/(?:src|href)=["'](\.\/[^"'#?]+)["']/g)) {
-    const target = path.join(OUT, m[1]);
-    if (!fs.existsSync(target)) missing.push(`${page} → ${m[1]}`);
+  /* Resolved against the page's own folder, because a page one level down
+     reaches the shared assets as ../assets/… rather than ./assets/… */
+  for (const m of html.matchAll(/(?:src|href)=["'](\.{1,2}\/[^"'#?]+)["']/g)) {
+    const target = path.resolve(path.dirname(path.join(OUT, page)), m[1]);
+    if (!target.startsWith(OUT + path.sep)) missing.push(`${page} → ${m[1]} (ESCAPES the delivered folder)`);
+    else if (!fs.existsSync(target)) missing.push(`${page} → ${m[1]}`);
   }
   for (const m of html.matchAll(/(?:src|href)=["'](\/[^"'#?]+)["']/g)) {
     missing.push(`${page} → ${m[1]} (ABSOLUTE PATH: will break unless the site is at ${BASE}/)`);
@@ -93,9 +98,11 @@ Upload the contents of this folder to a directory named "${BASE.slice(1)}" at th
 root of the domain, so that the following paths exist:
 
     ${HOST}${BASE}/index.html
-    ${HOST}${BASE}/story.html
-    ${HOST}${BASE}/visit.html
+    ${HOST}${BASE}/story/index.html
+    ${HOST}${BASE}/visit/index.html
     ${HOST}${BASE}/assets/
+
+The directory structure must be preserved exactly as delivered.
 
 The site is then published at ${HOST}${BASE}/
 
