@@ -59,7 +59,9 @@ if (!pages.length) {
 for (const page of pages) {
   const file = path.join(OUT, page);
   const html = fs.readFileSync(file, 'utf8');
-  const stripped = html.replace(/[ \t]*<meta\s+name=["']robots["'][^>]*>\s*\n?/gi, '');
+  /* The trailing match is [ \t]* and not \s*, which would swallow the newline
+     and then the next line's indentation along with it. */
+  const stripped = html.replace(/[ \t]*<meta\s+name=["']robots["'][^>]*>[ \t]*\r?\n?/gi, '');
   fs.writeFileSync(file, stripped);
   if (/name=["']robots["']/i.test(stripped)) {
     console.error(`x ${page} still carries a robots tag`);
